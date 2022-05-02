@@ -1,11 +1,18 @@
 const express = require('express');
 const app = express();
+const { PORT } = require('./utils/variables');
 
-app.get('/hi', (req, res) => {
-    res.send('<h2>Hello!</h2>')
-})
+// DB Connection
+require('./configs/database')
 
-const port = process.env.PORT || 3000
-app.listen(port, 
-    console.log(`Listening on port ${port}! Now its up to you...`)
+// Express Configs
+require('./configs/express')(app)
+
+// Set Routers
+//require('./dispatcher')(app)
+
+app.listen(PORT, 
+    console.log(`Listening on port ${PORT}!`)
 );
+
+
