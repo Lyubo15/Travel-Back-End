@@ -16,7 +16,7 @@ router.post('/update/:id', isAuthenticated, async (req, res) => {
     return await updateCity(req, res);
 })
 
-router.delete('/delete/:id', isAuthenticated, async (req, res) => {
+router.delete('/delete/:id', isAuthenticated/*, isUserRoleAdmin */, async (req, res) => {
     return await deleteCityById(req, res);
 })
 

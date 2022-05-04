@@ -28,15 +28,6 @@ const addNewCity = async (req, res) => {
     }
 }
 
-const getCityById = async (id) => {
-    try {
-        const city = await City.findById(id)
-        return city
-    } catch (err) {
-        return null
-    }
-}
-
 const getAllCities = async (req, res) => {
     const cities = await City.find();
     return res.status(200).send(cities);
@@ -80,10 +71,43 @@ const deleteCityById = async (req, res) => {
     }
 }
 
+const addArticleToCity = async (cityId, articleId) => {
+    await City.findByIdAndUpdate(cityId, {
+        $addToSet: {
+            articles: [articleId]
+        }
+    })
+}
+
+const getAllCityArticles = async (cityId) => {
+    const city =  await City.findById(cityId).populate('articles', 'title imageUrl');
+    return city.articles
+}
+
+const removeArticleFromCity = async (cityId, articleId) => {
+    try {
+        const city = await City.findById(cityId)
+        
+        const articles = city.articles
+        const updatedArticles = articles.map(id => id.toString()).filter(id => id !== articleId);
+    
+        const update = {
+            "articles": updatedArticles
+        }
+        
+        await City.findByIdAndUpdate(cityId, update);
+        return true
+    } catch(_) {
+        return false
+    }
+}
+
 module.exports = {
     addNewCity,
-    getCityById,
     getAllCities,
     updateCity,
-    deleteCityById
+    deleteCityById,
+    addArticleToCity,
+    getAllCityArticles,
+    removeArticleFromCity
 };
