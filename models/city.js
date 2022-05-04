@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { ObjectId } = require('mongodb');
 
 const CitySchema = new mongoose.Schema({
     name: {
@@ -17,6 +18,11 @@ const CitySchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: [true, 'Image is required']
+    },
+
+    isApproved: {
+        type: Boolean,
+        default: false
     },
 
     articles: [{

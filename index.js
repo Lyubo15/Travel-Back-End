@@ -9,7 +9,7 @@ require('./configs/database')
 require('./configs/express')(app)
 
 // Set Routers
-//require('./dispatcher')(app)
+require('./dispatcher')(app)
 
 app.listen(PORT, 
     console.log(`Listening on port ${PORT}!`)
