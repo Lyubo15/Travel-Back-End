@@ -1,22 +1,17 @@
-const City = require('../models/city')
+const Article = require('../models/article')
 
-const cityErrorHandler = async (req) => {
-    const { name, country, image } = req.body
+const articleErrorHandler = async (req) => {
+    const { title, description, image } = req.body
     const id = req.params.id
 
     let errors = {}
 
     try {
-        await City.findById(id)
+        await Article.findById(id)
     } catch {
-        errors['city'] = 'City was not found.'
+        errors['city'] = 'Article not found.'
     }
     
-    let city = await City.findOne({ name })
-    if (city) {
-      errors['name'] = 'City already exist.'
-    }
-
     const extension = image.slice(image.lastIndexOf('.'));
     if (extension !== '.png' && extension !== '.jpg' && extension !== '.jpeg'){
         errors['file'] = 'Image should be with png or jpg extension'
@@ -26,5 +21,5 @@ const cityErrorHandler = async (req) => {
 }
 
 module.exports = {
-    cityErrorHandler
+    articleErrorHandler
 }
