@@ -17,7 +17,7 @@ const isAuthenticated = (req, res, next) => {
 }
 
 const isUserRoleAdmin = (req, res, next) => {
-    const { token } = req.cookies
+    const token = req.cookies.token
 
     return jwt.verify(token, JWT_PRIVATE_KEY, (err, user) => {
         if(user.role === 'ADMIN'){
