@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 
 module.exports = (app) => {
 
@@ -14,6 +15,10 @@ module.exports = (app) => {
         limit: '50mb',
         extended: true
     }))
+
+    // Cookie Parser
+
+    app.use(cookieParser())
 
     // Cors security
 
@@ -31,12 +36,12 @@ module.exports = (app) => {
     //app.use(cors(corsOptions))
     app.use(cors())
 
-    // Token accessability
-    app.use(function(req, res, next){
-        res.header(
-            'Access-Control-Allow-Headers',
-            'x-access-token, Origin, Content-Type, Accept'
-        )
-        next()
-    })
+    // // Token accessability
+    // app.use(function(req, res, next){
+    //     res.header(
+    //         'Access-Control-Allow-Headers',
+    //         'x-access-token, Origin, Content-Type, Accept'
+    //     )
+    //     next()
+    // })
 }

@@ -32,7 +32,8 @@ const saveUser = async (req, res) => {
             role: user.userRole,
         }, new Date().getTime() + 863940000)
        
-        return res.status(201).send({ 'accessToken': token, 'user': user });
+        res.cookie('token', token, { maxAge: new Date().getTime() + 863940000, httpOnly: true })
+        return res.status(201).send({ 'user': user });
     } catch (err) {
         errors['error'] = err
         return res.status(400).send(errors)
@@ -58,7 +59,8 @@ const verifyUser = async (req, res) => {
                 role: user.userRole,
             }, new Date().getTime() + 863940000)
 
-            return res.status(200).send({ 'accessToken': token, message: 'Successfully logged.' })
+            res.cookie('token', token, { expires: new Date().getTime() + 863940000, httpOnly: true })
+            return res.status(200).send({ message: 'Successfully logged.' })
         }
 
         return res.status(400).send({ message: 'Username or password is wrong.' })

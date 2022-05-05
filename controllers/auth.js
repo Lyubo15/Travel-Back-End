@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const { JWT_PRIVATE_KEY } = require('../utils/variables')
 
 const isAuthenticated = (req, res, next) => {
-    const token = req.headers['x-access-token']
+    const token = req.cookies.token
 
     if (!token) { 
         return res.status(401).send({ message: 'You are not authenticared.' }) 
@@ -17,7 +17,8 @@ const isAuthenticated = (req, res, next) => {
 }
 
 const isUserRoleAdmin = (req, res, next) => {
-    const token = req.headers['x-access-token']
+    const { token } = req.cookies
+
     return jwt.verify(token, JWT_PRIVATE_KEY, (err, user) => {
         if(user.role === 'ADMIN'){
             next()
@@ -28,7 +29,8 @@ const isUserRoleAdmin = (req, res, next) => {
 }
 
 const guestAccess = (req, res, next) => {
-    const token = req.headers['x-access-token']
+    const token = req.cookies.token
+
     if (token) { 
         return res.status(400).send({ message: 'You have already logged.' }) 
     }

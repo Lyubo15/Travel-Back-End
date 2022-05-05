@@ -80,8 +80,12 @@ const addArticleToCity = async (cityId, articleId) => {
 }
 
 const getAllCityArticles = async (cityId) => {
-    const city =  await City.findById(cityId).populate('articles', 'title imageUrl');
-    return city.articles
+    try {
+        const city =  await City.findById(cityId).populate('articles', 'title imageUrl');
+        return city.articles    
+    } catch(_) {
+        return []
+    }
 }
 
 const removeArticleFromCity = async (cityId, articleId) => {
