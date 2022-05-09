@@ -9,6 +9,7 @@ services:
   
   node-app-image:
     build: .
+    image: lyubomir15/travel-back-end
     environment:
       - PORT=3000
     depends_on:
