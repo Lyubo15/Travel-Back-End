@@ -3,6 +3,7 @@ services:
   nginx:
     ports:
       - "3000:80"
+  
   node-app-image:
     build:
       context: .
@@ -16,7 +17,11 @@ services:
       - MONGO_USER=user
       - MONGO_PASSWORD=password 
       - JWT_PRIVATE_KEY=secretkey
+      - CLOUDINARY_CLOUD_NAME=duqs103ad
+      - CLOUDINARY_API_KEY=979164823357556
+      - CLOUDINARY_API_SECRET=sZB0KcDs7SrYgUNakVTDI52BU0o
     command: npm run dev   
+  
   mongodb:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=user

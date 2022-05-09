@@ -1,6 +1,7 @@
 const Article = require('../models/article')
 const { articleErrorHandler } = require('../validations/article')
 const { getAllCityArticles, addArticleToCity, removeArticleFromCity } = require('../controllers/city')
+const { uploads, destroy } = require('./cloudinary')
 
 const addNewArticle = async (req, res) => {
 
@@ -13,14 +14,14 @@ const addNewArticle = async (req, res) => {
     const { title, description, image } = req.body
     const cityId = req.params.cityId
 
-    // const response = await uploads(file, getFileName(image));
+    // const response = await uploads(image);
 
     // if (response === null) {
     //     return res.status(400).send({ message: 'Something went wrong during image uploading.' })
     // }
 
     try {
-        const article = new Article({ title, description, imageUrl: image })
+        const article = new Article({ title, description, imageUrl: image /* response.secure_url */ })
         const articlebject = await article.save()
         await addArticleToCity(cityId, articlebject.id)
         return res.status(201).send({ 'article': articlebject });
@@ -77,7 +78,7 @@ const deleteArticleById = async (req, res) => {
     const articleId = req.params.articleId
     try {
         const article = await Article.findByIdAndDelete(articleId)
-        //await destroy(getFileName(city.imageUrl));
+        //await destroy(article.imageUrl);
         const result = await removeArticleFromCity(cityId, articleId)
 
         if (!result) {
