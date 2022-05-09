@@ -11,14 +11,14 @@ const addNewCity = async (req, res) => {
 
     const { name, country, image } = req.body
 
-    // const response = await uploads(file, getFileName(image));
+    // const response = await uploads(image);
 
     // if (response === null) {
     //     return res.status(400).send({ message: 'Something went wrong during image uploading.' })
     // }
 
     try {
-        const city = new City({ name, country, imageUrl: image })
+        const city = new City({ name, country, imageUrl: image /* responce.secure_url */ })
         const cityObject = await city.save()
         
         return res.status(201).send({ 'city': cityObject });
@@ -64,7 +64,7 @@ const deleteCityById = async (req, res) => {
 
     try {
         const city = await City.findByIdAndDelete(id)
-        //await destroy(getFileName(city.imageUrl));
+        //await destroy(city.imageUrl);
         return res.status(200).send(city)
     } catch (_) {
         return res.status(400).send({ "error": "City was not found." })

@@ -3,11 +3,23 @@ services:
   nginx:
     ports:
       - "80:80"
+  
   node-app-image:
     build:
       context: .
       args:
         NODE_ENV: production
     environment:
-      - NODE_ENV=production   
+      - NODE_ENV=production
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD} 
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
     command: node index.js   
+  
+  mongodb:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}  
